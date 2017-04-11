@@ -2,6 +2,8 @@
 objRegex=/o:\d+:"(.*?)":\d+:{.*?}(.*?)$/i
 arrRegex=/a:\d+:{.*?}(.*?)$/i
 pathRegex=/\/(.*?)(\.txt|\.php|\.asp|\.jpg|\.png|\.jpeg)/
+base64Regex=/^([A-Za-z0-9+\/]{4})*([A-Za-z0-9+\/]{4}|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{2}==)$/
+
 infoList=null
 storage=chrome.storage.local
 
@@ -9,9 +11,32 @@ function updateCounter(){
   chrome.browserAction.setBadgeText({text: Object.keys(infoList).length.toString()});
 }
 
-function test(url, method_, val){
+//extract and TEST the params from a GET request
+function splitGET(url){
+  paramStr=url
+  while((j=paramStr.indexOf('='))!=-1){
+    i=paramStr.indexOf('&')
+    if(i==-1) {
+      test(url,"GET",paramStr.substring(j+1))
+      break
+    }
+    else {
+      test(url,"GET",paramStr.substring(j+1,i))
+    }
+    paramStr=paramStr.substring(i+1)
+  }
+}
+
+function test(url, _method, val){
+  _base64=false, original=''
+  val=decodeURIComponent(val)
+  if(base64Regex.test(val)){
+    original=val
+    val=atob(val)
+    _base64=true
+  }
   if(objRegex.test(val) || arrRegex.test(val)){
-    infoList[url]={method:method_,value:val,vuln:'PHPObjInj'}
+    infoList[url]={method:_method,value:val,vuln:'PHPObjInj', base64:_base64, base64String:original}
     storage.set({info:infoList})
     updateCounter()
   }
@@ -24,9 +49,8 @@ function test(url, method_, val){
 
 function analyzeRequest(requestDetails) {
   url=requestDetails.url
-  dURI=decodeURIComponent(url)
   if(requestDetails.method=="GET"){
-    test(url,requestDetails.method,dURI)
+    splitGET(url)
   }
   else if(requestDetails.method=="POST"){
     if(requestDetails.requestBody.error)
@@ -36,9 +60,9 @@ function analyzeRequest(requestDetails) {
       for(key in data){
         //console.log(key+" "+data[key])
         for(i=0;i<data[key].length;i++){
-          var val=decodeURIComponent(data[key][i])
+          var value=data[key][i]
           //console.log(val)
-          test(url,requestDetails.method,val)
+          test(url,requestDetails.method,value)
         }
       }
     }

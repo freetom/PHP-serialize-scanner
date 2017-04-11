@@ -18,10 +18,11 @@ function escapeHtml(string){
 function get(msg){
   if(msg!==null && msg.msg!==null){
     for(key in msg.msg){
-      if(msg.msg[key].method!="GET")
-        document.getElementById('info').innerHTML+=escapeHtml('[ Potential '+msg.msg[key].vuln+' in '+msg.msg[key].method+']  '+key+'  =  '+msg.msg[key].value)+'<hr />'
-      else
-        document.getElementById('info').innerHTML+=escapeHtml('[ Potential '+msg.msg[key].vuln+' in '+msg.msg[key].method+']  =  '+msg.msg[key].value)+'<hr />'
+      document.getElementById('info').innerHTML+=escapeHtml('[ Potential '+msg.msg[key].vuln+' in '+msg.msg[key].method+']: URL = '+key)+'<br />'+escapeHtml(msg.msg[key].value)
+
+      if(msg.msg[key].base64)
+        document.getElementById('info').innerHTML+='<br />BASE64 -> '+msg.msg[key].base64String;
+      document.getElementById('info').innerHTML+='<hr />'
     }
   }
 }
