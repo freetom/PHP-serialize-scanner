@@ -34,10 +34,10 @@ function analyzeRequest(requestDetails) {
     else if(requestDetails.requestBody.formData!==null){
       data=requestDetails.requestBody.formData
       for(key in data){
-        console.log(key+" "+data[key])
+        //console.log(key+" "+data[key])
         for(i=0;i<data[key].length;i++){
           var val=decodeURIComponent(data[key][i])
-          console.log(val)
+          //console.log(val)
           test(url,requestDetails.method,val)
         }
       }
