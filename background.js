@@ -13,21 +13,24 @@ function updateCounter(){
 
 //extract and TEST the params from a GET request
 function splitGET(url){
-  paramStr=url
+  paramStr=url, k=paramStr.indexOf('?')
+  k++
   while((j=paramStr.indexOf('='))!=-1){
+    name=paramStr.substring(k,j)
     i=paramStr.indexOf('&')
     if(i==-1) {
-      test(url,"GET",paramStr.substring(j+1))
+      test(url,"GET",name,paramStr.substring(j+1))
       break
     }
     else {
-      test(url,"GET",paramStr.substring(j+1,i))
+      test(url,"GET",name,paramStr.substring(j+1,i))
     }
     paramStr=paramStr.substring(i+1)
+    k=i+1
   }
 }
 
-function test(url, _method, val){
+function test(url, _method, _name, val){
   _base64=false, original=''
   val=decodeURIComponent(val)
   if(base64Regex.test(val)){
@@ -36,7 +39,7 @@ function test(url, _method, val){
     _base64=true
   }
   if(objRegex.test(val) || arrRegex.test(val)){
-    infoList[url]={method:_method,value:val,vuln:'PHPObjInj', base64:_base64, base64String:original}
+    infoList[url]={method:_method, name:_name, value:val, vuln:'PHPObjInj', base64:_base64, base64String:original}
     storage.set({info:infoList})
     updateCounter()
   }
@@ -58,11 +61,9 @@ function analyzeRequest(requestDetails) {
     else if(requestDetails.requestBody.formData!==null){
       data=requestDetails.requestBody.formData
       for(key in data){
-        //console.log(key+" "+data[key])
         for(i=0;i<data[key].length;i++){
           var value=data[key][i]
-          //console.log(val)
-          test(url,requestDetails.method,value)
+          test(url,requestDetails.method,key,value)
         }
       }
     }
@@ -72,7 +73,7 @@ function analyzeRequest(requestDetails) {
 
 function analyzeCookie(changeInfo){
   val=changeInfo.cookie.value
-  test(changeInfo.cookie.domain,'COOKIE',val)
+  test(changeInfo.cookie.domain, 'COOKIE', changeInfo.cookie.name, val)
 }
 
 function messageHandler(msg, sender, sendResponse ){

@@ -1,8 +1,8 @@
 {
-  "description": "PHP obj inj detect",
+  "description": "Reveal potential POI vulnerabilities by analyzing attack vectors (GET,POST,COOKIES)",
   "manifest_version": 2,
   "name": "PHP obj inj detect",
-  "version": "1.0",
+  "version": "0.1",
 
   "applications": {
     "gecko": {

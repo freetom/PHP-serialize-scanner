@@ -18,7 +18,7 @@ function escapeHtml(string){
 function get(msg){
   if(msg!==null && msg.msg!==null){
     for(key in msg.msg){
-      document.getElementById('info').innerHTML+=escapeHtml('[ Potential '+msg.msg[key].vuln+' in '+msg.msg[key].method+']: URL = '+key)+'<br />'+escapeHtml(msg.msg[key].value)
+      document.getElementById('info').innerHTML+=escapeHtml('[ Potential '+msg.msg[key].vuln+' in '+msg.msg[key].method+']: URL = '+key)+'<br /><br />'+escapeHtml(msg.msg[key].name+' = '+msg.msg[key].value)
 
       if(msg.msg[key].base64)
         document.getElementById('info').innerHTML+='<br />BASE64 -> '+msg.msg[key].base64String;
