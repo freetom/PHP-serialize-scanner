@@ -11,3 +11,5 @@ The behavior is simple: it compares each potential POI vector (GET params, POST 
 ## COMPATIBILITY
 &gt;= Firefox 53
 
+## INSTALL
+Open Firefox and go to about:addons ; select Extensions on the left panel ; press the settings button next to the search bar and then select "Install add-on from file..."; give it PHP-serialize-scanner-0.1.xpi ; authorize the installation ; done
