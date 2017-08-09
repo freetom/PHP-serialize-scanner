@@ -9,7 +9,14 @@ Browse normally and get a notification on the button on toolbar (with the number
 The behavior is simple: it compares each potential POI vector (GET params, POST params, COOKIES, ...?) with two regex: one instructs on how PHP represents generic objects, the other describes serialized arrays
 
 ## COMPATIBILITY
-&gt;= Firefox 53
+&gt;= Firefox 53<br/>
+Chrome
 
 ## INSTALL
 Open Firefox and go to about:addons ; select Extensions on the left panel ; press the settings button next to the search bar and then select "Install add-on from file..."; give it PHP-serialize-scanner-0.1.xpi ; authorize the installation ; done
+
+## SECURITY ADVISORIES
+Listing of the bugs found with this web extension:
+* [Drupal module - Session Cache API 7.x-1.4](https://www.drupal.org/node/2900951)
+
+If you find something, report it back here
