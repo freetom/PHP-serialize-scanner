@@ -34,7 +34,7 @@ function test(url, _method, _name, val){
   val=decodeURIComponent(val)
   if(base64Regex.test(val)){
     original=val
-    val=atob(val)
+    val=decodeURIComponent(atob(val))
     _base64=true
   }
   if(objRegex.test(val) || arrRegex.test(val)){
