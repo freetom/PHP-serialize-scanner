@@ -1,7 +1,6 @@
 //objRegex=/o:\d+:"[a-z0-9\-_\\\/]+":\d+:{.*?}(.*?)$/i
 objRegex=/o:\d+:"(.*?)":\d+:{.*?}(.*?)$/i
 arrRegex=/a:\d+:{.*?}(.*?)$/i
-pathRegex=/\/(.*?)(\.txt|\.php|\.asp|\.jpg|\.png|\.jpeg)/
 base64Regex=/^([A-Za-z0-9+\/]{4})*([A-Za-z0-9+\/]{4}|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{2}==)$/
 
 infoList=null
@@ -43,11 +42,6 @@ function test(url, _method, _name, val){
     storage.set({info:infoList})
     updateCounter()
   }
-  /*if(pathRegex.test(val)){
-    infoList[url]={method:method_,value:val,vuln:'path'}
-    storage.set({info:infoList})
-    updateCounter()
-  }*/
 }
 
 function analyzeRequest(requestDetails) {
